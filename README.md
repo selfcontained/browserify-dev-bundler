@@ -66,20 +66,20 @@ app.use(bundler.middleware(/^\/js\/(.+)\.js$/));
 +    `new-source` - [moduleName, source] - whenever the source updates due to files changing.
 
 ```javascript
-bundle = DevBundler({ root: '/my/modules' });
+bundler = DevBundler({ root: '/my/modules' });
 
 // add custom headers
-bundle.on('pre-response', function(err, res, module, src) {
+bundler.on('pre-response', function(err, res, module, src) {
     res.setHeader('X-Module-Name', module);
 });
 
 // log source updates
-bundle.on('new-source', function(module, src) {
+bundler.on('new-source', function(module, src) {
     console.log('Source updated: ', module);
 });
 
 // manipulate browserify bundle directly
-bundle.on('pre-bundle', function(bundle, module, modulePath) {
+bundler.on('pre-bundle', function(bundle, module, modulePath) {
     // add my own transform manually
     bundle.transform('my-custom-transform');
     // add specific files
