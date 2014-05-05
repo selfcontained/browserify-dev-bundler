@@ -1,0 +1,31 @@
+{
+  "name": "browserify-dev-bundler",
+  "version": "0.0.0",
+  "description": "On-demand browserify bundler middleware for development with watchify support",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/selfcontained/browserify-dev-bundler.git"
+  },
+  "keywords": [
+    "browserify",
+    "watchify",
+    "bundler",
+    "middleware",
+    "on demand",
+    "development"
+  ],
+  "author": "Brad Harris <bmharris@gmail.com> (http://selfcontained.us)",
+  "license": "MIT",
+  "dependencies": {
+    "deap": "^0.2.2",
+    "watchify": "^0.8.3"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.18.2"
+  }
+}
