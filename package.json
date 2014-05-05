@@ -1,6 +1,6 @@
 {
   "name": "browserify-dev-bundler",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "On-demand browserify bundler middleware for development with watchify support",
   "main": "index.js",
   "scripts": {
