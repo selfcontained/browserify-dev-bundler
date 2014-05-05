@@ -16,18 +16,40 @@ It's a dynamic browserify bundler via a middleware request handler that uses wat
 ```javascript
 var DevBundler = require('browserify-dev-bundler');
 
+var bundler = DevBundler({
+    root: '/path/to/my/modules'
+});
+
+// attach it an express app - intercepts *.js by default
+app.use(bundler.middleware());
+
+// request comes in for "/apps/main.js"
+
+// response is browserified version of /path/to/my/modules/apps/main.js
+
+// handle a prefixed js folder in the url
+app.use('/js', bundler.middleware()); // let express handle it
+app.use(bundler.middleware(/^\/js\/(.+)\.js/)); // or handle it w/ the bundler
+```
+
+## Moar configs
+
+```javascript
+var DevBundler = require('browserify-dev-bundler');
+
 // create your bundler
 var bundler = DevBundler({
     root: '/where/my/modules/are',
     watchify: true,
     transforms: ['jadeify'],
     debug: true,
-    require: function(module) {
+    addFile: function(bundle, module, modulePath) {
         // i want my "apps" files requireable
-        return /^\/apps/.test(module);
-    },
-    expose: function(module) {
-        return module;
+        if(/^\/apps/.test(module)) {
+            bundle.require(modulePath, { expose: module })
+        }else {
+            bundle.add(modulePath);
+        }
     },
     options: {
         insertGlobals: true,
@@ -52,11 +74,10 @@ app.use(bundler.middleware(/^\/js\/(.+)\.js$/));
 
 `options` config object supports the following:
 +    `root` - required - root directory where you modules are located.
-+    `watchify` - optional - defaults to false - enabled watchify support/caching
++    `watchify` - optional - defaults to true - enabled watchify support/caching
 +    `transforms` - optional - Array of transforms to apply.  Each entry can be a single transform like you'd pass into `bundle.transform()`, or an `Array` that is applied against the transform function if you need to pass in options.
 +    `debug` - defaults to false - sets `browserify` debug flag for sourcemaps.
-+    `require` - optional function that receives the module name, and expects a boolean returned that determines if the module is `require()`'d against the bundle instead of just `add()`'d
-+    `expose` - optional function that receives a module name, and expects a string returned that is used as the `expose` configuration option for `browserify`'s '`bundle.require()`
++    `addFile` - optional function that receives the bundle, module name, and full module file path.  This provides a hook to add the top level file to your bundle however needed.  By default `bundle.addFile(modulePath)` is used.  If you prefer to `bundle.require(modulePath)` you can override this function and provide whatever logic you need.
 +    `options` - optional configuration object passed into the `browserify()` or `watchify()` call.
 
 ## `events`
