@@ -1,3 +1,6 @@
+[![Build Status](https://secure.travis-ci.org/selfcontained/browserify-dev-bundler.png?branch=master)](http://travis-ci.org/selfcontained/browserify-dev-bundler)
+
+
 browserify-dev-bundler
 ======================
 
