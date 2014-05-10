@@ -1,4 +1,5 @@
-[![Build Status](https://secure.travis-ci.org/selfcontained/browserify-dev-bundler.png?branch=master)](http://travis-ci.org/selfcontained/browserify-dev-bundler)
+[![Build Status](https://travis-ci.org/selfcontained/browserify-dev-bundler.svg?branch=master)](https://travis-ci.org/selfcontained/browserify-dev-bundler)
+[![Coverage Status](https://img.shields.io/coveralls/selfcontained/browserify-dev-bundler.svg)](https://coveralls.io/r/selfcontained/browserify-dev-bundler?branch=master)
 
 
 browserify-dev-bundler
