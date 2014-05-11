@@ -89,6 +89,7 @@ app.use(bundler.middleware(/^\/js\/(.+)\.js$/));
 +    `pre-bundle` - [bundle, moduleName, modulePath] - prior to bundle call
 +    `pre-response` - [error, response, moduleName, source] - prior to calling `send()` on the response
 +    `new-source` - [moduleName, source] - whenever the source updates due to files changing.
++    `bundle-error` - [error] - fired whenever an error is intercepted from a bundle call
 
 ```javascript
 bundler = DevBundler({ root: '/my/modules' });
@@ -109,6 +110,11 @@ bundler.on('pre-bundle', function(bundle, module, modulePath) {
     bundle.transform('my-custom-transform');
     // add specific files
     bundle.add('some/random-file.js');
+});
+
+// add logging to show bundle errors in the console
+bundler.on('bundle-error', function(err) {
+    console.log('Bundle Error: ', err.message);
 });
 ```
 
