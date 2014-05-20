@@ -22,9 +22,13 @@
   ],
   "author": "Brad Harris <bmharris@gmail.com> (http://selfcontained.us)",
   "license": "MIT",
+  "files": [
+    "index.js",
+    "lib"
+  ],
   "dependencies": {
-    "deap": "^0.2.2",
-    "watchify": "^0.8.3"
+    "deap": "~0.2.2",
+    "watchify": "~0.10.1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
