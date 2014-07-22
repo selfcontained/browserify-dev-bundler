@@ -223,7 +223,7 @@ describe('DevBundler', function() {
     function requestFile(app, path) {
         return request(app)
             .get(path)
-            .expect('Content-Type', 'text/javascript')
+            .expect('Content-Type', 'text/javascript; charset=utf-8')
             .expect('Cache-Control', 'no-cache')
             .expect(200);
     }
