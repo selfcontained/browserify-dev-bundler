@@ -27,8 +27,8 @@
     "lib"
   ],
   "dependencies": {
-    "deap": "~0.2.2",
-    "watchify": "~0.10.1"
+    "deap": "~1.0.0",
+    "watchify": "~0.10.2"
   },
   "devDependencies": {
     "chai": "^1.9.1",
