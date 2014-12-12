@@ -13,7 +13,7 @@ On-demand browserify bundler middleware for development with watchify support
 npm install browserify-dev-bundler
 ```
 
-It's a dynamic browserify bundler via a middleware request handler that uses watchify internally to keep your bundles cached, and your response times *fast* in development.  You don't have to manage watchify tasks/processes, or temporary files since it's all on-demand via your http server.  As the name implies, this is meant for development environments, you should be building your browserify bundles for production, or something other than this.
+It's a dynamic browserify bundler via a middleware request handler that uses watchify internally to keep your bundles cached, and your response times *fast* in development.  You don't have to manage watchify tasks/processes, or temporary files since it's all on-demand via your http server.  As the name implies, this is meant for development environments, but you can build static files for production via the exposed `bundle()` function.
 
 ## Examples
 
@@ -46,7 +46,6 @@ var bundler = DevBundler({
     root: '/where/my/modules/are',
     watchify: true,
     transforms: ['jadeify'],
-    debug: true,
     addFile: function(bundle, module, modulePath) {
         // i want my "apps" files requireable
         if(/^\/apps/.test(module)) {
@@ -58,6 +57,7 @@ var bundler = DevBundler({
     options: {
         insertGlobals: true,
         detectGlobals: false,
+        debug: false,
         noParse: []
     }
 });
@@ -80,9 +80,19 @@ app.use(bundler.middleware(/^\/js\/(.+)\.js$/));
 +    `root` - required - root directory where you modules are located.
 +    `watchify` - optional - defaults to true - enabled watchify support/caching
 +    `transforms` - optional - Array of transforms to apply.  Each entry can be a single transform like you'd pass into `bundle.transform()`, or an `Array` that is applied against the transform function if you need to pass in options.
-+    `debug` - defaults to false - sets `browserify` debug flag for sourcemaps.
 +    `addFile` - optional function that receives the bundle, module name, and full module file path.  This provides a hook to add the top level file to your bundle however needed.  By default `bundle.addFile(modulePath)` is used.  If you prefer to `bundle.require(modulePath)` you can override this function and provide whatever logic you need.
 +    `options` - optional configuration object passed into the `browserify()` or `watchify()` call.
+
+## `bundle(moduleName, callback[err, source])`
+
+The `bundle()` method is exposed to allow you to use the same bundler instance to build your source files for deployment.  Pass in your module name (relative to whatever `root` you set), and the callback will be called with an `error` if there was one, and the `source` string.
+
+```javascript
+// on an existing bundler instance...
+bundler.bundle('app/main', function(err, src) {
+    // write src to disk somewhere
+});
+```
 
 ## `events`
 
@@ -130,4 +140,4 @@ There are some existing solutions for setting up an http response handler to dyn
 
 #### combine watchify & dynamic bundler middleware
 
-I worked with both of these approaches on different sized projects, and wanted a better solution.  `browserify-dev-bundler` provides dynamic bundler middleware, but with the added bonus of having seamless watchify support.  You don't have to run watchify processes for your files, but your bundles are automatically kept up to date internally with watchify, which means really fast response times for dynamic bundles in development.
+I worked with both of these approaches on different sized projects, and wanted a better solution.  `browserify-dev-bundler` provides dynamic bundler middleware, but with the added bonus of having seamless watchify support.  You don't have to run watchify processes for your files, but your bundles are automatically kept up to date internally with watchify, which means really fast response times for dynamic bundles in development.  You can also use the same bundler instance to build your source files for production.
