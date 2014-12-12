@@ -1,4 +1,5 @@
-var Bundler = require('./lib/bundler');
+var Bundler = require('./lib/bundler'),
+    browserify = require('browserify');
 
 var bundler = module.exports = function(config) {
 
@@ -6,4 +7,4 @@ var bundler = module.exports = function(config) {
 };
 
 // expose browserify lib
-bundler.browserify = require('watchify').browserify;
+bundler.browserify = browserify;
